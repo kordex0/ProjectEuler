@@ -2,15 +2,20 @@
 from helperfunctions import primeFactorsSet, primeFactorsList
 
 def problem047():
+    factors = [0]*1000000
     count = 0
-    i = 1
-    while True:
-        if len(primeFactorsSet(i)) == 4:
+    for i in range(2, 1000000):
+        if factors[i] == 0:
+            count = 0
+            tmp = i
+            while tmp < 1000000:
+                factors[tmp] += 1
+                tmp += i
+        elif factors[i] == 4:
             count += 1
+            if count == 4:
+                return i - 3
         else:
             count = 0
-        if count == 4:
-            return i - 3
-        i += 1
 
 print(problem047())
