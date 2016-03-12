@@ -1,6 +1,4 @@
 
-from helperfunctions import primeFactorsSet, primeFactorsList
-
 def problem047():
     factors = [0]*1000000
     count = 0
@@ -19,3 +17,4 @@ def problem047():
             count = 0
 
 print(problem047())
+

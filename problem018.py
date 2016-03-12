@@ -1,3 +1,4 @@
+
 s = """75
 95 64
 17 47 82
@@ -25,3 +26,4 @@ def problem018():
     return a[0]
 
 print(problem018())
+

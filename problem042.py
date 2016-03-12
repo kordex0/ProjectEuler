@@ -1,5 +1,4 @@
 
-
 def isTriangleWord(s):
     s = s.lower()
     value = 0
@@ -20,3 +19,4 @@ def problem042():
     return ans
 
 print(problem042())
+

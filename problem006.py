@@ -1,3 +1,4 @@
+
 def problem006():
     s = 0
     for i in range(1, 101):
@@ -5,3 +6,4 @@ def problem006():
     return int((100*101)/2)**2 - s
     
 print(problem006())
+

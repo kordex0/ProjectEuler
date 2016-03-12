@@ -21,3 +21,4 @@ def problem031():
     return ways(200)
 
 print(problem031())
+

@@ -18,3 +18,4 @@ def problem044():
     return min(s)
 
 print(problem044())
+

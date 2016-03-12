@@ -14,6 +14,5 @@ def problem022():
         ans += (i+1) * score(name)
     return ans
 
-print(score("COLIN"))
-
 print(problem022())
+

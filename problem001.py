@@ -1,3 +1,4 @@
+
 def problem001():
     total = 0
     for i in range(3, 1000):
@@ -6,3 +7,4 @@ def problem001():
     return total
 
 print(problem1())
+

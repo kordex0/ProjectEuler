@@ -19,3 +19,4 @@ def problem024():
     return int(s)
 
 print(problem024())
+

@@ -1,3 +1,4 @@
+
 def problem002():
     a = 1
     b = 1
@@ -11,3 +12,4 @@ def problem002():
     return total
 
 print(problem002())
+

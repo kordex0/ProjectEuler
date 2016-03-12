@@ -2,7 +2,7 @@
 from helperfunctions import primes
 
 def problem050():
-    primesl = primes(1000000)
+    primesl = newprimes(1000000)
     primess = set(primesl)
     ans = 0
     maxn = 0
@@ -19,3 +19,4 @@ def problem050():
     return ans
 
 print(problem050())
+
