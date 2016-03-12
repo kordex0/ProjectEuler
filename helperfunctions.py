@@ -6,11 +6,13 @@ def isPrime(n):
         return True
     if n % 2 == 0 or n % 3 == 0:
         return False
+        
     for i in range(5, int(n**0.5)+1, 6):
         if n % i == 0:
             return False
         if n % (i+2) == 0:
             return False
+            
     return True
 
 def primes(limit):
@@ -22,12 +24,18 @@ def primes(limit):
     for j in range(4, limit, 2):
         primes[j] = False
     
-    if limit < 3:
+    if limit < 9:
         return [i for i in range(limit) if primes[i]]
     
-    for i in range(3, limit, 2):
+    for j in range(9, limit, 3):
+        primes[j] = False
+    
+    for i in range(5, int(limit**0.5)+1, 6):
         if primes[i]:
             for j in range(i*i, limit, i):
+                primes[j] = False
+        if primes[i+2]:
+            for j in range((i+2)*(i+2), limit, i+2):
                 primes[j] = False
     
     return [i for i in range(limit) if primes[i]]
