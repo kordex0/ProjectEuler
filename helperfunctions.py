@@ -19,7 +19,13 @@ def primes(limit):
     primes = [True]*limit
     primes[0] = primes[1] = False
     
-    for i in range(2, limit):
+    for j in range(4, limit, 2):
+        primes[j] = False
+    
+    if limit < 3:
+        return [i for i in range(limit) if primes[i]]
+    
+    for i in range(3, limit, 2):
         if primes[i]:
             for j in range(i*i, limit, i):
                 primes[j] = False
