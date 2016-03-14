@@ -45,14 +45,14 @@ def factors(n):
     for i in range(1,int(n**0.5)+1):
         if n % i == 0:
             l.append(i)
-            if i != int(n/i):
-                l.append(int(n/i))
+            if i != n//i:
+                l.append(n//i)
     return l
 
 def primeFactorsDict(n):
-    if n < 2:
-        return {}
     d = {}
+    if n < 2:
+        return d
     while n % 2 == 0:
         d[2] = d.get(2, 0) + 1
         n /= 2
@@ -65,9 +65,9 @@ def primeFactorsDict(n):
     return d
 
 def primeFactorsList(n):
-    if n < 2:
-        return []
     l = []
+    if n < 2:
+        return l
     while n % 2 == 0:
         l.append(2)
         n /= 2
@@ -80,18 +80,32 @@ def primeFactorsList(n):
     return l
 
 def primeFactorsSet(n):
-    if n < 2:
-        return set()
     s = set()
-    while n % 2 == 0:
+    if n < 2:
+        return s
+    if n % 2 == 0:
         s.add(2)
         n /= 2
-    i = 3
+        while n % 2 == 0:
+            n /= 2
+    if n % 3 == 0:
+        s.add(3)
+        n /= 3
+        while n % 3 == 0:
+            n /= 3
+    i = 5
     while i <= n:
-        while n % i == 0:
+        if n % i == 0:
             s.add(i)
             n /= i
-        i += 2
+            while n % i == 0:
+                n /= i
+        if n % (i+2) == 0:
+            s.add(i+2)
+            n /= (i+2)
+            while n % (i+2) == 0:
+                n /= (i+2)
+        i += 6
     return s
 
 def properFactors(n):
