@@ -1,4 +1,19 @@
 
+import sys
+
+def _import_module(name):
+    __import__(name)
+    return sys.modules[name]
+
+# make sure to always use the iterator range
+def range(*args, **kwargs):
+    if sys.version_info[0] == 2:
+        module = _import_module("__builtin__")
+        return getattr(module, "xrange")(*args,**kwargs)
+    else:
+        module = _import_module("builtins")
+        return getattr(module, "range")(*args,**kwargs)  
+
 def isPrime(n):
     if n < 2:
         return False
@@ -18,25 +33,18 @@ def isPrime(n):
 def primes(limit):
     if limit < 2:
         return []
+    limit1 = limit-1
     primes = [True]*limit
     primes[0] = primes[1] = False
     
-    for j in range(4, limit, 2):
-        primes[j] = False
-    
-    if limit < 9:
-        return [i for i in range(limit) if primes[i]]
-    
-    for j in range(9, limit, 3):
-        primes[j] = False
+    primes[4:limit:2] = [False]*((limit1//2)-1)
+    primes[9:limit:3] = [False]*((limit1//3)-2)
     
     for i in range(5, int(limit**0.5)+1, 6):
         if primes[i]:
-            for j in range(i*i, limit, i):
-                primes[j] = False
+            primes[i*i:limit:i] = [False]*((limit1//i)-i+1)
         if primes[i+2]:
-            for j in range((i+2)*(i+2), limit, i+2):
-                primes[j] = False
+            primes[(i+2)*(i+2):limit:(i+2)] = [False]*((limit1//(i+2))-i-1)
     
     return [i for i in range(limit) if primes[i]]
     

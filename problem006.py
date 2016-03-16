@@ -1,9 +1,7 @@
 
-def problem006():
+def problem006(n):
     s = 0
-    for i in range(1, 101):
-        s += i ** 2
-    return int((100*101)/2)**2 - s
+    return ((n*(n+1))//2)**2 - ((n*(n+1)*(2*n+1))//6)
     
-print(problem006())
+print(problem006(100))
 
