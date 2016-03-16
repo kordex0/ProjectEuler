@@ -1,13 +1,8 @@
 
-def problem003():
-    n = 600851475143
-    i = 3
-    while True:
-        while n % i == 0:
-            if i == n:
-                return i
-            n /= i
-        i += 2
+from helperfunctions import primeFactorsSet
+
+def problem003(n):
+    return max(primeFactorsSet(n))
     
-print(problem003())
-        
+print(problem003(600851475143))
+
