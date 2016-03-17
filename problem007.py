@@ -17,7 +17,3 @@ def problem007(n):
     
 print(problem007(10001))
 
-import timeit
-
-print(timeit.timeit("problem007(10001)", setup="from __main__ import problem007", number=100))
-

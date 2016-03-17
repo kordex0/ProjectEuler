@@ -1,5 +1,6 @@
 
 import sys
+import primes as cprimes
 
 def _import_module(name):
     __import__(name)
@@ -14,7 +15,7 @@ def range(*args, **kwargs):
         module = _import_module("builtins")
         return getattr(module, "range")(*args,**kwargs)  
 
-def isPrime(n):
+def isPrimePython(n):
     if n < 2:
         return False
     if n == 2 or n == 3:
@@ -29,6 +30,23 @@ def isPrime(n):
             return False
             
     return True
+
+def isPrime(n):
+    return cprimes.isPrime(n)
+
+#for i in range(10**3):
+#    if isPrime(i) != isPrimePython(i):
+#        print(i)
+
+#import timeit
+
+#for i in range(10**5):
+#    if isPrimePython(i) != isPrime(i):
+#        print(i)
+
+#print(timeit.timeit("isPrimePython(9999991)", setup="from __main__ import isPrimePython", number=1000))
+
+#print(timeit.timeit("isPrime(9999991)", setup="from __main__ import isPrime", number=1000))
 
 def primes(limit):
     if limit < 2:
@@ -47,6 +65,19 @@ def primes(limit):
             primes[(i+2)*(i+2):limit:(i+2)] = [False]*((limit1//(i+2))-i-1)
     
     return [i for i in range(limit) if primes[i]]
+
+def primesC(n):
+    return cprimes.primesList(n)
+
+#for i in range(10**3):
+#    if primes(i) != primesC(i):
+#        print(i)
+
+#import timeit
+
+#print(timeit.timeit("primes(10**4)", setup="from __main__ import primes", number=100))
+
+#print(timeit.timeit("primesC(10**4)", setup="from __main__ import primesC", number=1000))
     
 def factors(n):
     l = []
@@ -72,19 +103,31 @@ def primeFactorsDict(n):
         i += 2
     return d
 
-def primeFactorsList(n):
+def primeFactorsList(n, primes=None):
     l = []
     if n < 2:
         return l
-    while n % 2 == 0:
-        l.append(2)
-        n /= 2
-    i = 3
-    while i <= n:
-        while n % i == 0:
-            l.append(i)
-            n /= i
-        i += 2
+    
+    if primes is None:
+        while n % 2 == 0:
+            l.append(2)
+            n //= 2
+        i = 3
+        while i <= n:
+            while n % i == 0:
+                l.append(i)
+                n //= i
+            i += 2
+    else:
+        for p in primes:
+            if p*p > n:
+                l.append(n)
+                break
+            while n % p == 0:
+                l.append(p)
+                n //= p
+            if n == 1:
+                break
     return l
 
 def primeFactorsSet(n):
