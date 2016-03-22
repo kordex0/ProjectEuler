@@ -1,6 +1,4 @@
 
-using Benchmarks
-
 function problem002(n::Int)
     ans = e1 = e2 = 2
     next = 4*2
@@ -14,6 +12,4 @@ function problem002(n::Int)
 end
 
 println(problem002(4 * 10^6))
-
-println(@benchmark problem002(4 * 10^6))
 
