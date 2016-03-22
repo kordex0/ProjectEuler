@@ -48,3 +48,50 @@ function primes(n::Int)
     return primesn
 end
 
+function nprimes(n::Int)
+    if n < 1
+        return Int[]
+    elseif n <= 16
+        if n == 1
+            return Int[2]
+        else
+            primesl = Int[2]
+            i = 3
+            while length(primesl) < n
+                if isPrime(i)
+                    push!(primesl, i)
+                end
+                i += 2
+            end
+            return primesl
+        end
+    else
+        x = (2^floor(Int, log2(n)))*2
+        if (x > 5395)
+            epsilon = -1
+        else
+            epsilon = 2
+        end
+        
+        while div(x, log(x)+epsilon) < n
+            x *= 2
+        end
+        
+        lower = div(x,2)
+        upper = x
+        mid = div(upper-lower,2) + lower
+        if div(mid, log(mid)+epsilon) < n
+            lower = mid
+        else
+            upper = mid
+        end
+        mid = div(upper-lower,2) + lower
+        if div(mid, log(mid)+epsilon) < n
+            return primes(upper)
+        else
+            return primes(mid)
+        end
+    end
+end
+
+
