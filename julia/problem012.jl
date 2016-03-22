@@ -15,7 +15,7 @@ function problem012(n::Int)
         if ts % 2 == 0
             ts = div(ts, 2)
         end
-        Dts = divisorsCount(ts, primesl)
+        Dts = divisorCount(ts, primesl)
         divisors = Ds*Dts
         Ds = Dts
     end
