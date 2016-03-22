@@ -1,8 +1,8 @@
 
-from helperfunctions import primeFactorsSet
+from factors import primeFactorSet
 
 def problem003(n):
-    return max(primeFactorsSet(n))
+    return max(primeFactorSet(n))
     
 print(problem003(600851475143))
 
