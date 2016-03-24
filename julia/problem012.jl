@@ -1,6 +1,4 @@
 
-using Benchmarks
-
 include("primes.jl")
 include("divisors.jl")
 
@@ -23,6 +21,4 @@ function problem012(n::Int)
 end
 
 println(problem012(500))
-
-println(@benchmark problem012(500))
 
