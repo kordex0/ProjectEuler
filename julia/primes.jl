@@ -87,9 +87,9 @@ function nprimes(n::Int)
         end
         mid = div(upper-lower,2) + lower
         if div(mid, log(mid)+epsilon) < n
-            return primes(upper)
+            return primes(upper)[1:n]
         else
-            return primes(mid)
+            return primes(mid)[1:n]
         end
     end
 end
