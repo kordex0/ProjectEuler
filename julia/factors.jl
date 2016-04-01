@@ -1,5 +1,7 @@
 
-@inline function primeFactorSetPartial(s::Set{Int}, n::Int, i::Int)
+using Benchmarks
+
+@inline function primeFactorSetPartial{T}(s::Set{T}, n::T, i::T)
     if(n % i == 0)
         push!(s, i)
         n = div(n, i)
@@ -10,16 +12,17 @@
     return n
 end
 
-function primeFactorSet(n::Int)
-    s = Set{Int}()
-    n = primeFactorSetPartial(s, n, 2)
-    n = primeFactorSetPartial(s, n, 3)
+function primeFactorSet{T}(n::T)
+    s = Set{T}()
+    i = T(2)
+    n = primeFactorSetPartial(s, n, i)
+    i += 1
+    n = primeFactorSetPartial(s, n, i)
     
-    i = 5
+    i += 2
     while i <= n
         if i*i > n
             push!(s, n)
-            n = 1
             break
         end
         n = primeFactorSetPartial(s, n, i)
