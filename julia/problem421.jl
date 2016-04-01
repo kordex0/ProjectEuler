@@ -69,8 +69,8 @@ function S(n, m)
             s = union(s, a3(p))
             s = union(s, a4(p))
         end
-        for f in s
-            ans += p * div(n + (p-f), p)
+        for a in s
+            ans += p * div(n + (p-a), p)
         end
     end
     return ans
