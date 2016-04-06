@@ -1,11 +1,10 @@
 
 using Benchmarks
-using ProfileView
 
 include("primes.jl")
 include("factors.jl")
 
-function pow(a::Int, b::Int, c::Int) # hopefully faster than powermod
+function pow(a::Int, b::Int, c::Int) # faster than powermod
     ans = 1
     while b > 0
         if b % 2 == 1
@@ -58,10 +57,6 @@ function problem421(n, m)
 end
 
 println(problem421(10^11,10^3))
-Profile.init(10^8, 0.001)
-Profile.clear()
-@profile problem421(10^11,10^8)
-ProfileView.view()
 
-#println(@benchmark problem421(10^11,10^8))
+println(@benchmark problem421(10^11,10^6))
 
