@@ -1,5 +1,5 @@
 
-function isPrime(n::Int)
+function isPrime{T<:Integer}(n::T)
     if n < 2
         return false
     elseif n == 2 || n == 3
@@ -19,11 +19,14 @@ function isPrime(n::Int)
     return true
 end
 
-function primes(n::Int)
+function primes{T<:Integer}(n::T)
     if n < 2
-        return Int[]
+        return T[]
     end
-    primes = trues(n)
+    if n > typemax(n)
+        throw(OverflowError())
+    end
+    primes = trues(Int(n))
     primes[1] = false
     for i in 4:2:n
         primes[i] = false
@@ -31,7 +34,7 @@ function primes(n::Int)
     for i in 9:3:n
         primes[i] = false
     end
-    for j in 5:6:floor(Int, sqrt(n))
+    for j in 5:6:floor(T, sqrt(n))
         for i in (j*j):j:n
             primes[i] = false
         end
@@ -39,7 +42,7 @@ function primes(n::Int)
             primes[i] = false
         end
     end
-    primesn = Int[]
+    primesn = T[]
     for i in 2:n
         if primes[i]
             push!(primesn, i)

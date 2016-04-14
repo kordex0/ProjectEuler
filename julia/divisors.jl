@@ -1,20 +1,36 @@
 
-function divisorCount(n::Int, primes::Array{Int})
-    divisors = 1
+using Benchmarks
+
+include("primes.jl")
+
+@inline function divisorCountPartial{T<:Integer}(n::T, i::T, divisors::T)
+    if n % i == 0
+        exponent = T(2)
+        n = div(n, i)
+        while n % i == 0
+            exponent += 1
+            n = div(n, i)
+        end
+        divisors *= exponent
+    end
+    return n, divisors
+end
+
+function divisorCount{T<:Integer}(n::T, primes::AbstractArray{T})
+    if n == 1
+        return 1
+    elseif n < 1
+        return 0
+    end
+    divisors = T(1)
     for p in primes
         if p*p > n
-            divisors *= 2
+            if n > 1
+                divisors *= 2
+            end
             break
         end
-        if n % p == 0
-            exponent = 2
-            n = div(n, p)
-            while n % p == 0
-                exponent += 1
-                n = div(n, p)
-            end
-            divisors *= exponent
-        end
+        n, divisors = divisorCountPartial(n, p, divisors)
         if n == 1
             break
         end
@@ -22,29 +38,11 @@ function divisorCount(n::Int, primes::Array{Int})
     return divisors
 end
 
-@inline function divisorCountPartial(n, i, divisors)
-    if n % i == 0
-        exponent = 2
-        n = div(n, i)
-        while n % i == 0
-            exponent += 1
-            n = div(n, 2)
-        end
-        divisors *= exponent
-    end
-    return n, divisors
-end
-
-function divisorCount(n::Int)
-    if n == 1
-        return 1
-    elseif n < 1
-        return 0
-    end
-    divisors = 1
-    n, divisors = divisorCountPartial(n, 2, divisors)
-    n, divisors = divisorCountPartial(n, 3, divisors)
-    i = 5
+function divisorCount{T<:Integer}(n::T)
+    divisors = T(1)
+    n, divisors = divisorCountPartial(n, T(2), divisors)
+    n, divisors = divisorCountPartial(n, T(3), divisors)
+    i = T(5)
     while i*i <= n
         n, divisors = divisorCountPartial(n, i, divisors)
         n, divisors = divisorCountPartial(n, i+2, divisors)
@@ -56,32 +54,7 @@ function divisorCount(n::Int)
     return divisors
 end
 
-function divisorSum(n::Int, primes::Array{Int})
-    sum = 1
-    for p in primes
-        if p*p > n
-            if n > 1
-                sum *= (n+1)
-            end
-            break
-        end
-        if n % p == 0
-            s = p*p
-            n = div(n, p)
-            while n % p == 0
-                s *= p
-                n = div(n, p)
-            end
-            sum *= div(s-1, p-1)
-        end
-        if n == 1
-            break
-        end
-    end
-    return sum
-end
-
-function divisorSumPartial(n, i, sum)
+@inline function divisorSumPartial{T<:Integer}(n::T, i::T, sum::T)
     if n % i == 0
         s = i*i
         n = div(n, i)
@@ -94,14 +67,31 @@ function divisorSumPartial(n, i, sum)
     return n, sum
 end
 
-function divisorSum(n::Int)
+function divisorSum{T<:Integer}(n::T, primes::AbstractArray{T})
+    sum = T(1)
+    for p in primes
+        if p*p > n
+            if n > 1
+                sum *= (n+1)
+            end
+            break
+        end
+        n, sum = divisorSumPartial(n, p, sum)
+        if n == 1
+            break
+        end
+    end
+    return sum
+end
+
+function divisorSum{T<:Integer}(n::T)
     if n < 1
         return 0
     end
-    sum = 1
-    n, sum = divisorSumPartial(n, 2, sum)
-    n, sum = divisorSumPartial(n, 3, sum)
-    i = 5
+    sum = T(1)
+    n, sum = divisorSumPartial(n, T(2), sum)
+    n, sum = divisorSumPartial(n, T(3), sum)
+    i = T(5)
     while i*i <= n
         n, sum = divisorSumPartial(n, i, sum)
         n, sum = divisorSumPartial(n, i+2, sum)
@@ -113,11 +103,26 @@ function divisorSum(n::Int)
     return sum
 end
 
-function properDivisorSum(n::Int, primes::Array{Int})
+function properDivisorSum{T<:Integer}(n::T, primes::AbstractArray{T})
     return divisorSum(n, primes) - n
 end
 
-function properDivisorSum(n::Int)
+function properDivisorSum{T<:Integer}(n::T)
     return divisorSum(n) - n
 end
+
+function divisorSumSum{T<:Integer}(n::T, primes::AbstractArray{T})
+    sum = 0
+    for i in 1:n
+        sum += div(n, i) * i
+    end
+    return sum
+end
+
+n = 6
+
+primesl = primes(n)
+
+println(divisorSumSum(n, primesl))
+#println(@benchmark divisorSumSum(n, primesl))
 
