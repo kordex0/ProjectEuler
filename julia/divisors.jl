@@ -68,9 +68,13 @@ end
 end
 
 function divisorSum{T<:Integer}(n::T, primes::AbstractArray{T})
+    if n < 1
+        return 0
+    end
     sum = T(1)
+    sqrtn = floor(T, sqrt(n))
     for p in primes
-        if p*p > n
+        if p > sqrtn
             if n > 1
                 sum *= (n+1)
             end
@@ -111,18 +115,42 @@ function properDivisorSum{T<:Integer}(n::T)
     return divisorSum(n) - n
 end
 
-function divisorSumSum{T<:Integer}(n::T, primes::AbstractArray{T})
-    sum = 0
-    for i in 1:n
-        sum += div(n, i) * i
+function divisorSumSum{T<:Integer}(n::T)
+    sum = T(0)
+    i = T(1)
+    while i <= n
+        ni = div(n, i)
+        j = div(n, ni) + 1
+        sum += div(ni * (i + j - 1) * (j - i), 2)
+        # multiplier of number [i,j) to divide n is n/i
+        # avg value of these numbers is (i+j-1)/2
+        # number of numbers is j - i
+        # ie for 12, 5 and 6 both divide twice
+        # (4 divides 3 times and 7 divides once)
+        # i = 5, j = 7
+        # 5*2 + 6*2 =  12/5 * (5+7-1)/2 * (7-5) = 2 * 5.5 * 2
+        i = j
     end
     return sum
 end
 
-n = 6
+function properDivisorSumSum{T<:Integer}(n::T)
+    return divisorSumSum(n) - div(n*(n+1),2)
+end
 
-primesl = primes(n)
+function divisorSquaredSumSum{T<:Integer}(n::T)
+    sum = T(0)
+    i = T(1)
+    while i <= n
+        ni = div(n, i)
+        j = div(n, ni) + 1
+        # sum of squared numbers from i to j-1
+        sum += div(ni * ((j-1)*(j)*(2*j-1)-(i-1)*(i)*(2*i-1)), 6)
+        i = j
+    end
+    return sum
+end
 
-println(divisorSumSum(n, primesl))
-#println(@benchmark divisorSumSum(n, primesl))
+
+
 
