@@ -117,19 +117,9 @@ end
 
 function divisorSumSum{T<:Integer}(n::T)
     sum = T(0)
-    i = T(1)
-    while i <= n
-        ni = div(n, i)
-        j = div(n, ni) + 1
-        sum += div(ni * (i + j - 1) * (j - i), 2)
-        # multiplier of number [i,j) to divide n is n/i
-        # avg value of these numbers is (i+j-1)/2
-        # number of numbers is j - i
-        # ie for 12, 5 and 6 both divide twice
-        # (4 divides 3 times and 7 divides once)
-        # i = 5, j = 7
-        # 5*2 + 6*2 =  12/5 * (5+7-1)/2 * (7-5) = 2 * 5.5 * 2
-        i = j
+    for i in 1:floor(T, sqrt(n))
+        ii = div(n, i)
+        sum += i + (ii-i)*i + div(ii*(ii+1)-i*(i+1),2)
     end
     return sum
 end
@@ -140,13 +130,10 @@ end
 
 function divisorSquaredSumSum{T<:Integer}(n::T)
     sum = T(0)
-    i = T(1)
-    while i <= n
-        ni = div(n, i)
-        j = div(n, ni) + 1
-        # sum of squared numbers from i to j-1
-        sum += div(ni * ((j-1)*(j)*(2*j-1)-(i-1)*(i)*(2*i-1)), 6)
-        i = j
+    for i in 1:floor(T, sqrt(n))
+        i2 = i*i
+        ii = div(n, i)
+        sum += i2 + (ii-i)*i2 + div(ii*(ii+1)*(2*ii+1)-i*(i+1)*(2*i+1),6)
     end
     return sum
 end
