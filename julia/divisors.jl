@@ -68,9 +68,13 @@ end
 end
 
 function divisorSum{T<:Integer}(n::T, primes::AbstractArray{T})
+    if n < 1
+        return 0
+    end
     sum = T(1)
+    sqrtn = floor(T, sqrt(n))
     for p in primes
-        if p*p > n
+        if p > sqrtn
             if n > 1
                 sum *= (n+1)
             end
@@ -111,18 +115,29 @@ function properDivisorSum{T<:Integer}(n::T)
     return divisorSum(n) - n
 end
 
-function divisorSumSum{T<:Integer}(n::T, primes::AbstractArray{T})
-    sum = 0
-    for i in 1:n
-        sum += div(n, i) * i
+function divisorSumSum{T<:Integer}(n::T)
+    sum = T(0)
+    for i in 1:floor(T, sqrt(n))
+        ii = div(n, i)
+        sum += i + (ii-i)*i + div(ii*(ii+1)-i*(i+1),2)
     end
     return sum
 end
 
-n = 6
+function properDivisorSumSum{T<:Integer}(n::T)
+    return divisorSumSum(n) - div(n*(n+1),2)
+end
 
-primesl = primes(n)
+function divisorSquaredSumSum{T<:Integer}(n::T)
+    sum = T(0)
+    for i in 1:floor(T, sqrt(n))
+        i2 = i*i
+        ii = div(n, i)
+        sum += i2 + (ii-i)*i2 + div(ii*(ii+1)*(2*ii+1)-i*(i+1)*(2*i+1),6)
+    end
+    return sum
+end
 
-println(divisorSumSum(n, primesl))
-#println(@benchmark divisorSumSum(n, primesl))
+
+
 
