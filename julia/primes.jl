@@ -1,4 +1,6 @@
 
+using Benchmarks
+
 function isPrime{T<:Integer}(n::T)
     if n < 2
         return false
@@ -22,9 +24,6 @@ end
 function primes{T<:Integer}(n::T)
     if n < 2
         return T[]
-    end
-    if n > typemax(n)
-        throw(OverflowError())
     end
     primes = trues(Int(n))
     primes[1] = false
